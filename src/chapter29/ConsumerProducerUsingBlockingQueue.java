@@ -1,10 +1,11 @@
 package chapter29;
 
 import java.util.concurrent.*;
-
+//最简单的生产者和消费者,只需存储和取用，线程同步的操作交由ArrayBlockingQueue全权处理.
+//1个ArrayBlockingQueue，1个main,2个线程全为static的,属于类,
 public class ConsumerProducerUsingBlockingQueue {
   private static ArrayBlockingQueue<Integer> buffer =
-    new ArrayBlockingQueue<Integer>(2);
+    new ArrayBlockingQueue<Integer>(2);//只能存2个数，
 
   public static void main(String[] args) {
     // Create a thread pool with two threads
@@ -22,7 +23,6 @@ public class ConsumerProducerUsingBlockingQueue {
         while (true) {
           System.out.println("Producer writes " + i);
           buffer.put(i++); // Add any value to the buffer, say, 1
-          // Put the thread into sleep
           Thread.sleep((int)(Math.random() * 10000));
         }
       } catch (InterruptedException ex) {
@@ -37,7 +37,6 @@ public class ConsumerProducerUsingBlockingQueue {
       try {
         while (true) {
           System.out.println("\t\t\tConsumer reads " + buffer.take());
-          // Put the thread into sleep
           Thread.sleep((int)(Math.random() * 10000));
         }
       } catch (InterruptedException ex) {
